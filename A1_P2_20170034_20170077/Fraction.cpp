@@ -1,6 +1,11 @@
 #include "Fraction.h"
 #include <algorithm>
 
+Fraction::Fraction()
+{
+    num = 1 ;
+    denom = 1;
+}
 Fraction::Fraction(int n, int d)
 {
     num = n ;
@@ -84,7 +89,9 @@ void Fraction:: reduce()
 }
 std :: ostream& operator << (std :: ostream& out ,const Fraction& f)
 {
-    out << f.num<<"/" <<f.denom;
+    if (f.num == 0) out << f.num;
+    else if (f.denom == 1) out << f.num;
+    else out << f.num<<"/" <<f.denom;
     return out;
 }
 std :: istream& operator >> (std :: istream& in , Fraction& f)

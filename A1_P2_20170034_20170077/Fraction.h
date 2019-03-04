@@ -4,7 +4,8 @@
 
 class Fraction
 {
-    public:
+    private:
+        Fraction();
         Fraction(int n , int d);
         virtual ~Fraction();
         Fraction(const Fraction& other);
@@ -25,6 +26,7 @@ class Fraction
         int num;
         int denom;
         void reduce();
+        friend class  FractionCalculator;
 };
 
 #endif // FRACTION_H
