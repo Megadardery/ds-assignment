@@ -4,7 +4,7 @@
 #include <fstream>
 
 using namespace std;
-const int maxn = 1e5 , maxs = 1e4;
+const int maxn = 1e5 , maxs = 5e4;
 
 int upperBound(int* arr , int n , int x);
 void binaryInsertion(int* arr, int n);
@@ -23,10 +23,12 @@ int main()
     bins.open("binaryins.txt" , ios::out);
     sz.open("size.txt" , ios::out);
 
-    int* arr1;
-    int* arr2;
+    int* arr1 = new int [10];
+    int* arr2 = new int [10];
 
-    for (int i = 1 ; i<= maxs ; i*=2) // change here
+
+
+    for (int i = 2 ; i<= maxs ; i*=1.5) // change here
     {
         arr1 = new int [i];
         arr2 = new int [i];
@@ -64,11 +66,10 @@ int upperBound(int* arr, int n, int x) {
 void binaryInsertion(int* arr , int n)
 {
     int i , key , idx ;
-    for (i = 1; i < n; i++) {
+    for (i = 0; i < n; i++) {
         key = arr[i];
         idx = upperBound(arr,i,key);
-        arr[idx] = key;
-        for (int j = i ; j>idx ; ++j)
+        for (int j = i ; j>idx ; --j)
         {
             arr[j] = arr[j-1];
         }
