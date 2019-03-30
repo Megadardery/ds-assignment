@@ -15,7 +15,7 @@ class BookStore
         Book* SearchbyName(std :: string n);
         Book* SearchbyAuthor(std :: string a);
         Book* FindHighest ();
-        bool Update (std :: string n , int v);
+        void Update (Book* upd , int v);
         std :: vector <Book> data;
 };
 

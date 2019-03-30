@@ -42,12 +42,9 @@ Book* BookStore::FindHighest()
     }
     return &data[idx];
 }
-bool BookStore::Update(std :: string n, int v)
+void BookStore::Update(Book* upd , int v)
 {
-    Book* ret = SearchbyName(n);
-    if (!ret) return 0;
-    ret->versions = v;
-    return 1;
+    upd->versions = v;
 }
 BookStore::~BookStore()
 {
@@ -56,9 +53,10 @@ BookStore::~BookStore()
 void BookStore :: PrintMenu(std :: ostream& out,std :: istream& in)
 {
     int c;
-    Book* b = new Book("","",0);
+    Book* b;
     while (true)
     {
+        b = new Book("","",0);
         out << "0- Exit\n1- Add Book\n2- Search by Author\n3- Search by Name\n4- List Books\n5- Update Book by name\n";
         in >> c;
         in.ignore();
@@ -82,14 +80,14 @@ void BookStore :: PrintMenu(std :: ostream& out,std :: istream& in)
             getline (in,b->author);
             b = SearchbyAuthor(b->author);
             if (!b) out << "Book is not found\n\n";
-            else out << b;
+            else out << "\n"<<b;
             break;
         case 3:
             out << "Enter Name : ";
             getline (in,b->name);
             b = SearchbyName(b->name);
             if (!b) out << "Book is not found\n\n";
-            else out << b;
+            else out << "\n" << b;
             break;
         case 4:
             ListBooks(out);
@@ -97,10 +95,16 @@ void BookStore :: PrintMenu(std :: ostream& out,std :: istream& in)
         case 5:
             out << "Enter Name : ";
             getline (in,b->name);
+            Book* upd = SearchbyName(b->name);
+            if (!upd)
+            {
+                out << "Book is not found\n";
+                break;
+            }
             out << "Enter versions : ";
             in >> b->versions;
-            if(Update(b->name,b->versions)) out << "Book is updated successfully\n\n";
-            else out << "Book is not found\n\n";
+            Update(upd,b->versions);
+            out << "Book is updated successfully\n\n";
             break;
         }
     }
