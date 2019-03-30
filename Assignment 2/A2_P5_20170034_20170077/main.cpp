@@ -4,7 +4,7 @@
 #include <fstream>
 
 using namespace std;
-const int maxn = 1e5 , maxs = 1e6;
+const int maxn = 1e5, maxs = 5e6;
 
 void swap(int& a, int& b);
 
@@ -14,39 +14,37 @@ void quicksort(int* arr, int l, int h);
 void merge(int* arr, int l,int m,int r);
 void mergesort(int* arr, int l, int h);
 
-int measure (void(*srt)(int*, int , int) , int* arr , int l , int h);
-void gen (int* a1 , int* a2 , int s);
+int measure (void(*srt)(int*, int, int), int* arr, int l, int h);
+void gen (int* a1, int* a2, int s);
 
 int main()
 {
     srand (time(NULL));
 
-    ofstream quick , mrg , sz;
-    quick.open("quick.txt" , ios::out);
-    mrg.open("merge.txt" , ios::out);
-    sz.open("size.txt" , ios::out);
-
+    ofstream quick, mrg, sz;
+    ofstream graph;
+    graph.open("graph.csv");
     int* arr1;
     int* arr2;
 
-    for (int i = 1 ; i<= maxs ; i*=2) // change here
+    int cursz = 10;
+    graph << "Data Size,Quick Sort,Merge Sort\n";
+    for (int i = cursz ; i<= maxs ; i+=cursz) // change here
     {
         arr1 = new int [i];
         arr2 = new int [i];
 
         gen(arr1,arr2,i);
 
-        sz << i << "\n";
-        quick<<measure(quicksort,arr1,0,i-1) << "\n";
-        mrg<<measure(mergesort,arr2,0,i-1) << "\n";
+        graph << i << "," << measure(quicksort,arr1,0,i-1) << "," << measure(mergesort,arr2,0,i-1) << "\n";
+
+        if (i>= cursz*10) cursz*=10;
 
         delete arr1;
         delete arr2;
     }
 
-    quick.close();
-    mrg.close();
-    sz.close();
+    graph.close();
     return 0;
 }
 
@@ -147,13 +145,13 @@ void mergesort(int* arr, int l, int r)
     }
 }
 
-int measure (void(*srt)(int*, int , int) , int* arr , int l , int h)
+int measure (void(*srt)(int*, int, int), int* arr, int l, int h)
 {
     int st = clock();
     srt(arr,l,h);
     return (clock() - st);
 }
-void gen (int* a1 , int* a2 , int s)
+void gen (int* a1, int* a2, int s)
 {
     for (int i = 0 ; i<s ; ++i)
     {

@@ -4,7 +4,7 @@
 #include <fstream>
 
 using namespace std;
-const int maxn = 1e5 , maxs = 5e4;
+const int maxn = 1e5 , maxs = 7e4;
 
 int upperBound(int* arr , int n , int x);
 void binaryInsertion(int* arr, int n);
@@ -18,34 +18,30 @@ int main()
 {
     srand (time(NULL));
 
-    ofstream ins , bins , sz;
-    ins.open("ins.txt" , ios::out);
-    bins.open("binaryins.txt" , ios::out);
-    sz.open("size.txt" , ios::out);
+    ofstream graph;
+    graph.open("graph.csv");
 
-    int* arr1 = new int [10];
-    int* arr2 = new int [10];
+    int* arr1;
+    int* arr2;
 
 
-
-    for (int i = 2 ; i<= maxs ; i*=1.5) // change here
+    int cursz = 10;
+    graph<<"Data Size,Insertion Sort,Binary Insertion Sort\n";
+    for (int i = cursz ; i<= maxs ; i+=cursz) // change here
     {
         arr1 = new int [i];
         arr2 = new int [i];
 
         gen(arr1,arr2,i);
 
-        sz << i << "\n";
-        ins<<measure(insertion,arr1,i) << "\n";
-        bins<<measure(binaryInsertion,arr2,i) << "\n";
+        graph << i << "," << measure(insertion,arr1,i) <<","<<measure(binaryInsertion,arr2,i)<<"\n";
 
+        if (i>= cursz*10) cursz*=10;
         delete arr1;
         delete arr2;
     }
 
-    ins.close();
-    bins.close();
-    sz.close();
+    graph.close();
     return 0;
 }
 
