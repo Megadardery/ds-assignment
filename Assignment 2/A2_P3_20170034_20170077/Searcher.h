@@ -10,8 +10,10 @@
 class Searcher
 {
 private:
+	std::vector<std::string> mainwordlist;
 	std::vector<std::string> wordlist;
 	std::mt19937 rng;
+	int sz;
 
 public:
 	Searcher();
@@ -24,7 +26,9 @@ public:
 	std::string getRandomWord();
 	std::string makeUpRandomWord();
 
-	void loadData(const char* filename, int words);
+	void loadData(const char* filename);
+	void setDataSize(int words);
+
 
 	performanceStat testPerformance(const std::string& w);
 	int binarySearch(const std::string& w);

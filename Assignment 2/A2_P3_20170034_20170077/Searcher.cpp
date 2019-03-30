@@ -14,7 +14,7 @@ std::string Searcher::getRandomWord()
 std::string Searcher::makeUpRandomWord()
 {
 	std::uniform_int_distribution<int> uid(0, 25);
-	std::uniform_int_distribution<int> uid2(3, 15);
+	std::uniform_int_distribution<int> uid2(4, 15);
 	int n = uid2(rng);
 	std::string ret;
 	ret.resize(n);
@@ -24,13 +24,23 @@ std::string Searcher::makeUpRandomWord()
 	return ret;
 }
 
-void Searcher::loadData(const char * filename, int words)
+void Searcher::loadData(const char * filename)
 {
-	wordlist.resize(words);
+	sz = 0;
+	mainwordlist.clear();
 	std::ifstream file(filename);
 	if (!file.is_open()) return;
-	for (int i = 0; i < words; i++) {
-		std::getline(file, wordlist[i]);
+	while (file.peek() != EOF) {
+		mainwordlist.push_back("");
+		std::getline(file, mainwordlist[sz++]);
+	}
+}
+
+void Searcher::setDataSize(int words)
+{
+	wordlist.resize(words);
+	for (int i = 0; i < words; ++i) {
+		wordlist[i] = mainwordlist[i*sz / words];
 	}
 }
 
