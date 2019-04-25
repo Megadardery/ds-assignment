@@ -28,6 +28,8 @@ bool ContactManager::loadFromFile(string fileName)
 
 void ContactManager::add(string name, string phone_number)
 {
+	tree.insert(phone_number, name);
+
 	Contact c(name);
 	c.addPhoneNumber(phone_number);
 	auto myc = contacts.get(c);
@@ -37,10 +39,16 @@ void ContactManager::add(string name, string phone_number)
 		myc->value.addPhoneNumber(phone_number);
 }
 
-void ContactManager::displayNumber(std::string phone_number)
+std::string ContactManager::displayNumber(std::string phone_number)
 {
-	// TODO: insert return statement here
-	// This will use treap when implemented
+	return tree.find(phone_number);
+}
+
+void ContactManager::printTreeFormation(std::ostream & o)
+{
+	o << "\n________________________________________\n\n";
+	o << tree;
+	o << "\n________________________________________\n\n";
 }
 
 std::ostream & operator<<(std::ostream & o, ContactManager & c)

@@ -8,13 +8,15 @@
 class ContactManager {
 private:
 	LinkedList<Contact> contacts;
-	Treap<std::string, Contact*> tree;  // for Task 2
+	Treap<std::string, std::string> tree;  // for Task 2
 public:
 	ContactManager();
 	bool loadFromFile(std::string fileName);
 	void add(std::string name, std::string phone_number);
-	void displayNumber(std::string phone_number);
+	std::string displayNumber(std::string phone_number);
 	friend std::ostream& operator<<(std::ostream& o, ContactManager & c);
+
+	void printTreeFormation(std::ostream& o);
 };
 
 #endif  /* CONTACT_MANAGER_H_ */
